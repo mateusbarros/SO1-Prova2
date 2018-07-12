@@ -21,9 +21,14 @@ fetchint(uint addr, int *ip)
 
   if(addr >= curproc->sz || addr+4 > curproc->sz)
     return -1;
-  if (curproc->pid > 1 && addr < PGSIZE) {
-	  return -1;
+  
+
+  //MODIFICADO PARA NAO ENTRAR NA PRIMEIRA PAGINA
+  if (curproc->pid > 1 && addr < PGSIZE) {		
+    return -1;		
   }
+  
+  
   *ip = *(int*)(addr);
   return 0;
 }
@@ -39,9 +44,14 @@ fetchstr(uint addr, char **pp)
 
   if(addr >= curproc->sz)
     return -1;
+
+
+  //MODOFICADO PARA NAO ENTRAR NA PRIMEIRA PAGINA
   if (curproc->pid > 1 && addr < PGSIZE) {
-	  return -1;
+    return -1;
   }
+
+  
   *pp = (char*)addr;
   ep = (char*)curproc->sz;
   for(s = *pp; s < ep; s++){
